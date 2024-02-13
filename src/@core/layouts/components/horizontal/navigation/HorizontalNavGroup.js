@@ -2,7 +2,7 @@
 import { useState, useEffect, Fragment } from 'react'
 
 // ** Next Import
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -175,22 +175,20 @@ const HorizontalNavGroup = props => {
                 ...(menuOpen ? { backgroundColor: 'action.hover' } : {}),
                 ...(!hasParent
                   ? {
-                      '&.Mui-selected': {
-                        boxShadow: `0px 2px 6px ${hexToRGBA(theme.palette.primary.main, 0.48)}`,
-                        background: `linear-gradient(72.47deg, ${
-                          theme.direction === 'ltr'
-                            ? theme.palette.primary.main
-                            : hexToRGBA(theme.palette.primary.main, 0.7)
-                        } 22.16%, ${
-                          theme.direction === 'ltr'
-                            ? hexToRGBA(theme.palette.primary.main, 0.7)
-                            : theme.palette.primary.main
+                    '&.Mui-selected': {
+                      boxShadow: `0px 2px 6px ${hexToRGBA(theme.palette.primary.main, 0.48)}`,
+                      background: `linear-gradient(72.47deg, ${theme.direction === 'ltr'
+                          ? theme.palette.primary.main
+                          : hexToRGBA(theme.palette.primary.main, 0.7)
+                        } 22.16%, ${theme.direction === 'ltr'
+                          ? hexToRGBA(theme.palette.primary.main, 0.7)
+                          : theme.palette.primary.main
                         } 76.47%)`,
-                        '& .MuiTypography-root, & .MuiListItemIcon-root, & svg': {
-                          color: 'common.white'
-                        }
+                      '& .MuiTypography-root, & .MuiListItemIcon-root, & svg': {
+                        color: 'common.white'
                       }
                     }
+                  }
                   : { mx: 2, width: `calc(100% - ${theme.spacing(2 * 2)})` })
               }}
             >

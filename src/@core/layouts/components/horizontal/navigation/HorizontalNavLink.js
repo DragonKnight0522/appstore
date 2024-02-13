@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -55,13 +55,14 @@ const HorizontalNavLink = props => {
   const { item, settings, hasParent } = props
 
   // ** Hook & Vars
-  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { navSubItemIcon, menuTextTruncate } = themeConfig
   const icon = item.icon ? item.icon : navSubItemIcon
   const Wrapper = !hasParent ? List : Fragment
 
   const isNavLinkActive = () => {
-    if (router.pathname === item.path || handleURLQueries(router, item.path)) {
+    if (pathname === item.path || handleURLQueries(pathname, searchParams, item.path)) {
       return true
     } else {
       return false
@@ -88,34 +89,34 @@ const HorizontalNavLink = props => {
             ...(item.disabled ? { pointerEvents: 'none' } : { cursor: 'pointer' }),
             ...(!hasParent
               ? {
-                  '&.active, &.active:hover': {
-                    boxShadow: theme => `0px 2px 6px ${hexToRGBA(theme.palette.primary.main, 0.48)}`,
+                '&.active, &.active:hover': {
+                  boxShadow: theme => `0px 2px 6px ${hexToRGBA(theme.palette.primary.main, 0.48)}`,
+                  background: theme =>
+                    `linear-gradient(72.47deg, ${theme.palette.primary.main} 22.16%, ${hexToRGBA(
+                      theme.palette.primary.main,
+                      0.7
+                    )} 76.47%)`,
+                  '&:focus-visible': {
                     background: theme =>
-                      `linear-gradient(72.47deg, ${theme.palette.primary.main} 22.16%, ${hexToRGBA(
-                        theme.palette.primary.main,
+                      `linear-gradient(72.47deg, ${theme.palette.primary.dark} 22.16%, ${hexToRGBA(
+                        theme.palette.primary.dark,
                         0.7
-                      )} 76.47%)`,
-                    '&:focus-visible': {
-                      background: theme =>
-                        `linear-gradient(72.47deg, ${theme.palette.primary.dark} 22.16%, ${hexToRGBA(
-                          theme.palette.primary.dark,
-                          0.7
-                        )} 76.47%)`
-                    },
-                    '& .MuiTypography-root, & .MuiListItemIcon-root': {
-                      color: 'common.white'
-                    }
+                      )} 76.47%)`
+                  },
+                  '& .MuiTypography-root, & .MuiListItemIcon-root': {
+                    color: 'common.white'
                   }
                 }
+              }
               : {
-                  mx: 2,
-                  width: theme => `calc(100% - ${theme.spacing(2 * 2)})`,
-                  '&.active, &.active:hover': {
-                    '&:focus-visible': {
-                      backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
-                    }
+                mx: 2,
+                width: theme => `calc(100% - ${theme.spacing(2 * 2)})`,
+                '&.active, &.active:hover': {
+                  '&:focus-visible': {
+                    backgroundColor: theme => hexToRGBA(theme.palette.primary.main, 0.24)
                   }
-                })
+                }
+              })
           }}
         >
           <Box sx={{ gap: 2, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

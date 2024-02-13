@@ -1,3 +1,5 @@
+"use client";
+
 // ** Next Import
 import Link from 'next/link'
 
@@ -33,28 +35,27 @@ const Img = styled('img')(({ theme }) => ({
   }
 }))
 
-const Error401 = () => {
+const Error500 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
         <BoxWrapper>
           <Typography variant='h2' sx={{ mb: 1.5 }}>
-            You are not authorized!
+            Oops, something went wrong!
           </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            You do not have permission to view this page using the credentials that you have provided while login.
+          <Typography sx={{ mb: 6, color: 'text.secondary' }}>
+            There was an error with the internal server. Please contact your site administrator.
           </Typography>
-          <Typography sx={{ mb: 6, color: 'text.secondary' }}>Please contact your site administrator.</Typography>
           <Button href='/' component={Link} variant='contained'>
             Back to Home
           </Button>
         </BoxWrapper>
-        <Img height='500' alt='error-illustration' src='/images/pages/401.png' />
+        <Img height='500' alt='error-illustration' src='/images/pages/404.png' />
       </Box>
       <FooterIllustrations />
     </Box>
   )
 }
-Error401.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Error500.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default Error401
+export default Error500

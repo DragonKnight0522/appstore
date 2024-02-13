@@ -6,6 +6,9 @@ const path = require('path')
 // Remove this if you're not using Fullcalendar features
 
 module.exports = {
+  experimental: {
+    appDir: true,
+  },
   trailingSlash: true,
   reactStrictMode: false,
   webpack: config => {

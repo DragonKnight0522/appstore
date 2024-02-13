@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 
 // ** Next Import
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 // ** Context Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
@@ -11,7 +11,7 @@ import { AbilityContext } from 'src/layouts/components/acl/Can'
 import { buildAbilityFor } from 'src/configs/acl'
 
 // ** Component Import
-import NotAuthorized from 'src/pages/401'
+import NotAuthorized from 'src/app/401'
 import Spinner from 'src/@core/components/spinner'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
