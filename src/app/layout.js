@@ -1,5 +1,4 @@
 // ** Utils Imports
-
 import { Public_Sans } from 'next/font/google'
 import AppLayout from './AppLayout';
 import { PreloadResources } from './preload-resources';
@@ -13,7 +12,7 @@ export const metadata = {
     shortcut: '/images/favicon.png',
     other: {
       rel: 'apple-touch-icon',
-      url: '/images/apple-touch-icon.png',
+      url: '/images/UNIC-logo.png',
     },
   },
   other: {
@@ -33,7 +32,7 @@ const public_sans = Public_Sans({
   display: 'swap',
 })
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={public_sans.className}>
       <head>

@@ -4,6 +4,7 @@ import { forwardRef } from 'react'
 // ** MUI Imports
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
+import { Box, InputLabel } from '@mui/material'
 
 const TextFieldStyled = styled(TextField)(({ theme }) => ({
   alignItems: 'flex-start',
@@ -65,11 +66,14 @@ const TextFieldStyled = styled(TextField)(({ theme }) => ({
       backgroundColor: `${theme.palette.action.selected} !important`
     },
     '& .MuiInputAdornment-root': {
-      marginTop: '0 !important'
-    }
+      marginTop: '0 !important',
+    },
+    '& .MuiButtonBase-root svg': {
+      color: `${theme.palette.text.primary} !important`,
+    },
   },
   '& .MuiInputBase-input': {
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     '&:not(textarea)': {
       padding: '15.5px 13px'
     },
@@ -91,7 +95,7 @@ const TextFieldStyled = styled(TextField)(({ theme }) => ({
   '& .MuiFormHelperText-root': {
     lineHeight: 1.154,
     margin: theme.spacing(1, 0, 0),
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
     fontSize: theme.typography.body2.fontSize,
     '&.Mui-error': {
       color: theme.palette.error.main
@@ -157,16 +161,20 @@ const TextFieldStyled = styled(TextField)(({ theme }) => ({
 
 const CustomTextField = forwardRef((props, ref) => {
   // ** Props
-  const { size = 'small', InputLabelProps, ...rest } = props
+  const { size = 'small', leftLabel = false, label = "", InputLabelProps, ...rest } = props
 
   return (
-    <TextFieldStyled
-      size={size}
-      inputRef={ref}
-      {...rest}
-      variant='filled'
-      InputLabelProps={{ ...InputLabelProps, shrink: true }}
-    />
+    <Box sx={{ display: "flex" }}>
+      {leftLabel && <InputLabel sx={{ mt: 2, color: "text.primary", ...InputLabelProps }} >{label}</InputLabel>}
+      <TextFieldStyled
+        size={size}
+        inputRef={ref}
+        {...rest}
+        variant='filled'
+        InputLabelProps={{ ...InputLabelProps, shrink: true }}
+        {...(leftLabel ? {} : { label })}
+      />
+    </Box>
   )
 })
 

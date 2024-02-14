@@ -1,27 +1,25 @@
 "use client";
 
+// ** Store Imports
+import { store } from 'src/store'
+import { Provider } from 'react-redux'
+
 // ** Emotion Imports
 import { CacheProvider } from '@emotion/react'
 
 // ** Config Imports
-
+import 'src/configs/i18n'
 import { defaultACLObj } from 'src/configs/acl'
+import themeConfig from 'src/configs/themeConfig'
 
 // ** Fake-DB Import
-import 'src/@fake-db'
+// import 'src/@fake-db'
 
 // ** Third Party Import
 import { Toaster } from 'react-hot-toast'
 
 // ** Component Imports
-import UserLayout from 'src/layouts/UserLayout'
-import AclGuard from 'src/@core/components/auth/AclGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
-import AuthGuard from 'src/@core/components/auth/AuthGuard'
-import GuestGuard from 'src/@core/components/auth/GuestGuard'
-
-// ** Spinner Import
-import Spinner from 'src/@core/components/spinner'
 
 // ** Contexts
 import { AuthProvider } from 'src/context/AuthContext'
@@ -48,19 +46,8 @@ import '../../styles/globals.css'
 import { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 
-const Guard = ({ children, authGuard, guestGuard }) => {
-  if (guestGuard) {
-    return <GuestGuard fallback={<Spinner />}>{children}</GuestGuard>
-  } else if (!guestGuard && !authGuard) {
-    return <>{children}</>
-  } else {
-    return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
-  }
-}
-
 // ** Configure JSS & ClassName
-const AppLayout = props => {
-
+const AppLayout = ({ children }) => {
   const [{ cache, flush }] = useState(() => {
     const cache = createEmotionCache()
     const prevInsert = cache.insert;
@@ -105,40 +92,29 @@ const AppLayout = props => {
     );
   });
 
-  const { children } = props
-
-  // Variables
-  const contentHeightFixed = children.contentHeightFixed ?? false
-
-  const getLayout = children.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
   const setConfig = children.setConfig ?? undefined
-  const authGuard = children.authGuard ?? true
-  const guestGuard = children.guestGuard ?? false
-  const aclAbilities = children.acl ?? defaultACLObj
 
   return (
-    <CacheProvider value={cache}>
-      <AuthProvider>
-        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-          <SettingsConsumer>
-            {({ settings }) => {
-              return (
-                <ThemeComponent settings={settings}>
-                  <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                    <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                      {getLayout(children)}
-                    </AclGuard>
-                  </Guard>
-                  <ReactHotToast>
-                    <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-                  </ReactHotToast>
-                </ThemeComponent>
-              )
-            }}
-          </SettingsConsumer>
-        </SettingsProvider>
-      </AuthProvider>
-    </CacheProvider>
+    <Provider store={store}>
+      <CacheProvider value={cache}>
+        <AuthProvider>
+          <SettingsProvider {...{ pageSettings: {} }}>
+            <SettingsConsumer>
+              {({ settings }) => {
+                return (
+                  <ThemeComponent settings={settings}>
+                    {children}
+                    <ReactHotToast>
+                      <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
+                    </ReactHotToast>
+                  </ThemeComponent>
+                )
+              }}
+            </SettingsConsumer>
+          </SettingsProvider>
+        </AuthProvider>
+      </CacheProvider>
+    </Provider >
   )
 }
 

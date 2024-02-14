@@ -3,57 +3,47 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
-
-const StyledCompanyName = styled(Link)(({ theme }) => ({
-  fontWeight: 500,
-  textDecoration: 'none',
-  color: `${theme.palette.primary.main} !important`
-}))
-
-const LinkStyled = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  color: `${theme.palette.text.secondary} !important`,
-  '&:hover': {
-    color: `${theme.palette.primary.main} !important`
-  }
-}))
+import { usePathname } from 'next/navigation'
 
 const FooterContent = () => {
   // ** Var
   const hidden = useMediaQuery(theme => theme.breakpoints.down('md'))
+  const pathname = usePathname();
+  console.log(pathname)
 
   return (
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
       <Typography sx={{ mr: 2, display: 'flex', color: 'text.secondary' }}>
-        {`© ${new Date().getFullYear()}, Made with `}
-        <Box component='span' sx={{ mx: 1, color: 'error.main' }}>
-          ❤️
-        </Box>
-        {`by`}
-        <Typography sx={{ ml: 1 }} target='_blank' href='https://pixinvent.com' component={StyledCompanyName}>
-          Pixinvent
-        </Typography>
+        Copyright © University of Nicosia. All rights reserved.
       </Typography>
       {hidden ? null : (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
-          <Typography target='_blank' component={LinkStyled} href='https://themeforest.net/licenses/standard'>
-            License
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+          {pathname !== "/login/" && <>
+            <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+              Terms & Conditions
+            </Typography>
+            &nbsp;|&nbsp;
+            <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+              Privacy Policy
+            </Typography>
+            &nbsp;|&nbsp;
+          </>}
+          <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+            Cookie Policy
           </Typography>
-          <Typography target='_blank' component={LinkStyled} href='https://1.envato.market/pixinvent_portfolio'>
-            More Themes
+          &nbsp;|&nbsp;
+          <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+            Contact us
           </Typography>
-          <Typography
-            target='_blank'
-            component={LinkStyled}
-            href='https://demos.pixinvent.com/vuexy-nextjs-admin-template/documentation'
-          >
-            Documentation
+          &nbsp;|&nbsp;
+          <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+            Status
           </Typography>
-          <Typography target='_blank' component={LinkStyled} href='https://pixinvent.ticksy.com'>
-            Support
+          &nbsp;|&nbsp;
+          <Typography target='_blank' component={Link} href='https://www.unic.ac.cy/'>
+            Release
           </Typography>
         </Box>
       )}

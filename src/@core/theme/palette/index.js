@@ -34,15 +34,15 @@ const DefaultPalette = (mode, skin) => {
       white: whiteColor
     },
     primary: {
-      light: '#8479F2',
-      main: '#7367F0',
-      dark: '#655BD3',
+      light: '#c12842',
+      main: '#b91731',
+      dark: '#a80720',
       contrastText: whiteColor
     },
     secondary: {
-      light: '#B2B4B8',
-      main: '#A8AAAE',
-      dark: '#949699',
+      light: '#626468',
+      main: '#58595B',
+      dark: '#343639',
       contrastText: whiteColor
     },
     error: {
@@ -86,8 +86,8 @@ const DefaultPalette = (mode, skin) => {
       A700: '#616161'
     },
     text: {
-      primary: `rgba(${mainColor}, 0.78)`,
-      secondary: `rgba(${mainColor}, 0.68)`,
+      primary: `rgba(${mainColor}, 0.88)`,
+      secondary: `rgba(${mainColor}, 0.78)`,
       disabled: `rgba(${mainColor}, 0.42)`
     },
     divider: `rgba(${mainColor}, 0.16)`,

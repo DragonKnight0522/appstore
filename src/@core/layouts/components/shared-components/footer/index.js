@@ -29,11 +29,17 @@ const Footer = props => {
           ...(layout === 'vertical'
             ? { px: [4, 6] }
             : {
-                backgroundColor: theme => theme.palette.background.paper,
-                ...(skin === 'bordered'
-                  ? { borderTop: theme => `1px solid ${theme.palette.divider}` }
-                  : { boxShadow: 16 })
-              })
+              backgroundColor: theme => theme.palette.background.paper,
+              ...(skin === 'bordered'
+                ? { borderTop: theme => `1px solid ${theme.palette.divider}` }
+                : { boxShadow: 16 })
+            })
+        }),
+        ...(footer === 'absolute' && {
+          width: '100%',
+          bottom: 0,
+          position: 'absolute',
+          backgroundColor: theme => theme.palette.background.paper,
         }),
         ...footerStyles
       }}
@@ -53,8 +59,8 @@ const Footer = props => {
           ...(footer === 'fixed' && {
             ...(contentWidth === 'boxed' &&
               layout === 'vertical' && {
-                '@media (min-width:1440px)': { maxWidth: theme => `calc(1440px - ${theme.spacing(6)} * 2)` }
-              }),
+              '@media (min-width:1440px)': { maxWidth: theme => `calc(1440px - ${theme.spacing(6)} * 2)` }
+            }),
             ...(layout === 'vertical' && {
               ...(skin === 'bordered'
                 ? { border: theme => `1px solid ${theme.palette.divider}`, borderBottomWidth: 0 }

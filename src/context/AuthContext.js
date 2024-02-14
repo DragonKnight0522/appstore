@@ -17,9 +17,14 @@ const defaultProvider = {
   setUser: () => null,
   setLoading: () => Boolean,
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
+  signUp: () => Promise.resolve(),
+  forgetPassword: () => Promise.resolve(),
 }
 const AuthContext = createContext(defaultProvider)
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 const AuthProvider = ({ children }) => {
   // ** States
@@ -46,7 +51,8 @@ const AuthProvider = ({ children }) => {
           .catch(() => {
             localStorage.removeItem('userData')
             localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
+            localStorage.removeItem(authConfig.storageTokenKeyName)
+            axios.defaults.headers.delete('Authorization');
             setUser(null)
             setLoading(false)
             if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
@@ -65,14 +71,11 @@ const AuthProvider = ({ children }) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        params.rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
-          : null
-        const returnUrl = router.query.returnUrl
+        window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
+        window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`;
         setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
-        router.replace(redirectURL)
+        router.replace("/")
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
@@ -83,7 +86,30 @@ const AuthProvider = ({ children }) => {
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    axios.defaults.headers.delete('Authorization');
     router.push('/login')
+  }
+
+  const handleSignUp = (params, errorCallback) => {
+    axios
+      .post(authConfig.signUpEndpoint, params)
+      .then(() => {
+        router.replace("/login")
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const handleForgetPassword = (params, errorCallback) => {
+    axios
+      .post(authConfig.forgetPasswordEndpoint, params)
+      .then(() => {
+        router.replace("/login")
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
   }
 
   const values = {
@@ -92,7 +118,9 @@ const AuthProvider = ({ children }) => {
     setUser,
     setLoading,
     login: handleLogin,
-    logout: handleLogout
+    logout: handleLogout,
+    signUp: handleSignUp,
+    forgetPassword: handleForgetPassword,
   }
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
