@@ -68,7 +68,7 @@ const ForgotPassword = () => {
     if (loading) return;
     setLoading(true)
     const { email } = data
-    auth.signUp({ email }, () => {
+    auth.forgetPassword({ email }, () => {
       setLoading(false)
       setError('email', {
         type: 'manual',
