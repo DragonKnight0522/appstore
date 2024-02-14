@@ -11,7 +11,6 @@ const FooterContent = () => {
   // ** Var
   const hidden = useMediaQuery(theme => theme.breakpoints.down('md'))
   const pathname = usePathname();
-  console.log(pathname)
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>

@@ -76,11 +76,11 @@ const LoginPage = () => {
     if (loading) return;
     setLoading(true)
     const { email, password } = data
-    auth.login({ email, password }, () => {
+    auth.login({ email, password }, (err) => {
       setLoading(false);
       setError('email', {
         type: 'manual',
-        message: 'Email or Password is invalid'
+        message: err?.response?.data?.error ? err.response.data.error : 'Email or Password is invalid'
       })
     })
   }
