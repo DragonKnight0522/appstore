@@ -7,12 +7,12 @@ import UserDropdown from 'src/@core/layouts/components/shared-components/UserDro
 
 const AppBarContent = props => {
   // ** Props
-  const { settings, saveSettings } = props
+  const { settings, saveSettings, hidden } = props
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <ModeToggler settings={settings} saveSettings={saveSettings} />
-      <UserDropdown settings={settings} />
+      {/* <ModeToggler settings={settings} saveSettings={saveSettings} /> */}
+      <UserDropdown settings={settings} hidden={hidden} />
     </Box>
   )
 }

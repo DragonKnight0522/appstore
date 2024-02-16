@@ -118,25 +118,7 @@ const VerticalNavHeader = props => {
         >
           <Icon icon='tabler:x' fontSize='1.25rem' />
         </IconButton>
-      ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (
-        <IconButton
-          disableRipple
-          disableFocusRipple
-          onClick={() => saveSettings({ ...settings, navCollapsed: !navCollapsed })}
-          sx={{
-            p: 0,
-            color: 'text.primary',
-            backgroundColor: 'transparent !important',
-            '& svg': {
-              fontSize: '1.25rem',
-              ...menuCollapsedStyles,
-              transition: 'opacity .25s ease-in-out'
-            }
-          }}
-        >
-          {navCollapsed ? MenuUnlockedIcon() : MenuLockedIcon()}
-        </IconButton>
-      )}
+      ) : null}
     </MenuHeaderWrapper>
   )
 }

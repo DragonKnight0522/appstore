@@ -7,6 +7,7 @@ import Layout from 'src/@core/layouts/Layout'
 // ** Navigation Imports
 import VerticalNavItems from 'src/navigation/vertical'
 import HorizontalNavItems from 'src/navigation/horizontal'
+import CustomNavItems from 'src/navigation/custom'
 
 // ** Component Import
 // Uncomment the below line (according to the layout type) when using server-side menu
@@ -35,9 +36,6 @@ const UserLayout = ({ children, contentHeightFixed }) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
-  if (hidden && settings.layout === 'horizontal') {
-    settings.layout = 'vertical'
-  }
 
   return (
     <Layout
@@ -45,24 +43,26 @@ const UserLayout = ({ children, contentHeightFixed }) => {
       settings={settings}
       saveSettings={saveSettings}
       contentHeightFixed={contentHeightFixed}
-      verticalLayoutProps={{
-        navMenu: {
-          navItems: VerticalNavItems()
+      {...(settings.layout === 'vertical' && {
+        verticalLayoutProps: {
+          navMenu: {
+            navItems: VerticalNavItems()
 
-          // Uncomment the below line when using server-side menu in vertical layout and comment the above line
-          // navItems: verticalMenuItems
-        },
-        appBar: {
-          content: props => (
-            <VerticalAppBarContent
-              hidden={hidden}
-              settings={settings}
-              saveSettings={saveSettings}
-              toggleNavVisibility={props.toggleNavVisibility}
-            />
-          )
+            // Uncomment the below line when using server-side menu in vertical layout and comment the above line
+            // navItems: verticalMenuItems
+          },
+          appBar: {
+            content: props => (
+              <VerticalAppBarContent
+                hidden={hidden}
+                settings={settings}
+                saveSettings={saveSettings}
+                toggleNavVisibility={props.toggleNavVisibility}
+              />
+            )
+          }
         }
-      }}
+      })}
       {...(settings.layout === 'horizontal' && {
         horizontalLayoutProps: {
           navMenu: {
@@ -76,9 +76,17 @@ const UserLayout = ({ children, contentHeightFixed }) => {
           }
         }
       })}
+      customLayoutProps={{
+        navMenu: {
+          navItems: CustomNavItems(),
+        },
+        appBar: {
+          content: () => <HorizontalAppBarContent settings={settings} saveSettings={saveSettings} hidden={hidden} />
+        }
+      }}
     >
       {children}
-      
+
     </Layout>
   )
 }

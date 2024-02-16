@@ -72,6 +72,7 @@ const AuthProvider = ({ children }) => {
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
+        window.localStorage.setItem(authConfig.onTokenExpiration, response.data.refreshToken)
         window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
         axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`;
         setUser({ ...response.data.userData })

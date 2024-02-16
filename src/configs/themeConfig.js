@@ -7,11 +7,11 @@
 const themeConfig = {
   // ** Layout Configs
   templateName: 'Vuexy' /* App Name */,
-  layout: 'vertical' /* vertical | horizontal */,
+  layout: 'custom' /* vertical | horizontal */,
   mode: 'light' /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   direction: 'ltr' /* ltr | rtl */,
-  skin: 'default' /* default | bordered */,
-  contentWidth: 'boxed' /* full | boxed */,
+  skin: 'bordered' /* default | bordered */,
+  contentWidth: 'full' /* full | boxed */,
   footer: 'static' /* fixed | static | hidden */,
   // ** Routing Configs
   routingLoader: true /* true | false */,
@@ -22,7 +22,7 @@ const themeConfig = {
   verticalNavToggleType: 'accordion' /* accordion | collapse /*! Note: This is for Vertical navigation menu only */,
   navCollapsed: false /* true | false /*! Note: This is for Vertical navigation menu only */,
   navigationSize: 260 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
-  collapsedNavigationSize: 82 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
+  collapsedNavigationSize: 0 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,
   afterVerticalNavMenuContentPosition: 'fixed' /* fixed | static */,
   beforeVerticalNavMenuContentPosition: 'fixed' /* fixed | static */,
   horizontalMenuToggle: 'hover' /* click | hover /*! Note: This is for Horizontal navigation menu only */,

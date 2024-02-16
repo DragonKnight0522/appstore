@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
+import CustomTextField from 'src/@core/components/mui/text-field'
+import { MenuItem } from '@mui/material'
+import Image from 'next/image'
 
 const LanguageDropdown = ({ settings, saveSettings }) => {
   // ** Hook
@@ -24,46 +27,58 @@ const LanguageDropdown = ({ settings, saveSettings }) => {
   }, [i18n.language])
 
   return (
-    <OptionsMenu
-      iconButtonProps={{ color: 'inherit' }}
-      icon={<Icon fontSize='1.625rem' icon='tabler:language' />}
-      menuProps={{ sx: { '& .MuiMenu-paper': { mt: 4.25, minWidth: 130 } } }}
-      options={[
-        {
-          text: 'English',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'en',
-            onClick: () => {
-              handleLangItemClick('en')
-              saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
-        {
-          text: 'French',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'fr',
-            onClick: () => {
-              handleLangItemClick('fr')
-              saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
-        {
-          text: 'Arabic',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'ar',
-            onClick: () => {
-              handleLangItemClick('ar')
-              saveSettings({ ...settings, direction: 'rtl' })
-            }
-          }
-        }
-      ]}
-    />
+    <CustomTextField
+      select
+      value={i18n.language || "en"}
+      BoxProps={{ width: "100%" }}
+      sx={{ width: "100%", "& .MuiInputBase-root": { width: "100%" }, "& .MuiSelect-select": { display: "flex", alignItems: "center" } }}
+    >
+      <MenuItem
+        onClick={() => {
+          handleLangItemClick('en')
+          saveSettings({ ...settings, direction: 'ltr' })
+        }}
+        value='en'
+      >
+        <Image
+          src="https://flagcdn.com/w20/gb.png"
+          width="20"
+          height="0"
+          style={{ width: '25px', height: 'auto', margin: "0 5px" }} alt="gb"
+        />
+        English
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleLangItemClick('fr')
+          saveSettings({ ...settings, direction: 'ltr' })
+        }}
+        value='fr'
+      >
+        <Image
+          src="https://flagcdn.com/w20/fr.png"
+          width="20"
+          height="0"
+          style={{ width: '25px', height: 'auto', margin: "0 5px" }} alt="fr"
+        />
+        French
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleLangItemClick('ar')
+          saveSettings({ ...settings, direction: 'rtl' })
+        }}
+        value='ar'
+      >
+        <Image
+          src="https://flagcdn.com/w20/ar.png"
+          width="20"
+          height="0"
+          style={{ width: '25px', height: 'auto', margin: "0 5px" }} alt="ar"
+        />
+        Arabic
+      </MenuItem>
+    </CustomTextField>
   )
 }
 

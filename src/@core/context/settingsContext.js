@@ -27,6 +27,7 @@ const staticSettings = {
   layout: initialSettings.layout,
   navHidden: initialSettings.navHidden,
   lastLayout: initialSettings.lastLayout,
+  contentWidth: initialSettings.contentWidth,
   toastPosition: initialSettings.toastPosition
 }
 
@@ -54,6 +55,7 @@ const storeSettings = settings => {
   delete initSettings.layout
   delete initSettings.navHidden
   delete initSettings.lastLayout
+  delete initSettings.contentWidth
   delete initSettings.toastPosition
   window.localStorage.setItem('settings', JSON.stringify(initSettings))
 }

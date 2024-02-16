@@ -31,6 +31,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // ** Hooks
 import { useAuth } from 'src/hooks/useAuth'
 import Footer from 'src/@core/layouts/components/shared-components/footer';
+import { useRouter } from 'next/navigation';
 
 // ** Styled Components
 
@@ -57,6 +58,7 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false)
 
   // ** Hooks
+  const router = useRouter()
   const auth = useAuth()
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -82,6 +84,7 @@ const LoginPage = () => {
         type: 'manual',
         message: err?.response?.data?.error ? err.response.data.error : 'Email or Password is invalid'
       })
+      router.replace("/dashboard")
     })
   }
 

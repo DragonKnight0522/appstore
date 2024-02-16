@@ -161,10 +161,10 @@ const TextFieldStyled = styled(TextField)(({ theme }) => ({
 
 const CustomTextField = forwardRef((props, ref) => {
   // ** Props
-  const { size = 'small', leftLabel = false, label = "", InputLabelProps, ...rest } = props
+  const { size = 'small', leftLabel = false, label = "", BoxProps, InputLabelProps, ...rest } = props
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", }} {...BoxProps}>
       {leftLabel && <InputLabel sx={{ mt: 2, color: "text.primary", ...InputLabelProps }} >{label}</InputLabel>}
       <TextFieldStyled
         size={size}

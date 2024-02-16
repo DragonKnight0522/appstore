@@ -18,5 +18,15 @@ module.exports = {
     }
 
     return config
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'flagcdn.com',
+        port: '',
+        pathname: '/w20/**',
+      },
+    ],
+  },
 }

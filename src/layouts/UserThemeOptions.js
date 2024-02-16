@@ -165,11 +165,11 @@ const UserThemeOptions = () => {
       '0px 9px 27px 0px rgba(15, 20, 34, 0.32)',
       '0px 10px 28px 0px rgba(15, 20, 34, 0.34)',
       '0px 10px 30px 0px rgba(15, 20, 34, 0.34)'
-    ],
+    ], */
     zIndex: {
       appBar: 1200,
       drawer: 1100
-    } */
+    }
   }
 }
 

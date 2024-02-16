@@ -2,6 +2,7 @@ const DefaultPalette = (mode, skin) => {
   // ** Vars
   const whiteColor = '#FFF'
   const lightColor = '47, 43, 61'
+  const grayColor = '#e8e8e8'
   const darkColor = '208, 212, 241'
   const darkPaperBgColor = '#2F3349'
   const mainColor = mode === 'light' ? lightColor : darkColor
@@ -22,6 +23,7 @@ const DefaultPalette = (mode, skin) => {
       main: mainColor,
       light: lightColor,
       lightPaperBg: whiteColor,
+      grayPaperBg: grayColor,
       darkPaperBg: darkPaperBgColor,
       bodyBg: mode === 'light' ? '#F8F7FA' : '#25293C',
       trackBg: mode === 'light' ? '#F1F0F2' : '#363B54',

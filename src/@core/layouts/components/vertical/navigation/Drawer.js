@@ -2,7 +2,7 @@
 import { styled } from '@mui/material/styles'
 import MuiSwipeableDrawer from '@mui/material/SwipeableDrawer'
 
-const SwipeableDrawer = styled(MuiSwipeableDrawer)({
+const SwipeableDrawer = styled(MuiSwipeableDrawer)(({ theme }) => ({
   overflowX: 'hidden',
   transition: 'width .25s ease-in-out',
   '& ul': {
@@ -16,20 +16,20 @@ const SwipeableDrawer = styled(MuiSwipeableDrawer)({
     left: 'unset',
     right: 'unset',
     overflowX: 'hidden',
-    transition: 'width .25s ease-in-out, box-shadow .25s ease-in-out'
+    transition: 'width .25s ease-in-out, box-shadow .25s ease-in-out',
+    top: `calc(${theme.mixins.toolbar.minHeight}px + ${theme.spacing(6)} - 4px)`,
+    backgroundColor: `${theme.palette.customColors.bodyBg}`
   }
-})
+}))
 
 const Drawer = props => {
   // ** Props
   const {
     hidden,
     children,
-    navHover,
     navWidth,
     settings,
     navVisible,
-    setNavHover,
     navMenuProps,
     setNavVisible,
     collapsedNavWidth,
@@ -38,7 +38,6 @@ const Drawer = props => {
 
   // ** Vars
   const { skin, navCollapsed } = settings
-  let flag = true
 
   // Drawer Props for Mobile & Tablet screens
   const MobileDrawerProps = {
@@ -54,19 +53,7 @@ const Drawer = props => {
   const DesktopDrawerProps = {
     open: true,
     onOpen: () => null,
-    onClose: () => null,
-    onMouseEnter: () => {
-      // Declared flag to resolve first time flicker issue while trying to collapse the menu
-      if (flag || navCollapsed) {
-        setNavHover(true)
-        flag = false
-      }
-    },
-    onMouseLeave: () => {
-      if (navCollapsed) {
-        setNavHover(false)
-      }
-    }
+    onClose: () => null
   }
   let userNavMenuStyle = {}
   let userNavMenuPaperStyle = {}
@@ -89,7 +76,7 @@ const Drawer = props => {
         sx: {
           backgroundColor: 'background.paper',
           ...(!hidden && skin !== 'bordered' && { boxShadow: 2 }),
-          width: navCollapsed && !navHover ? collapsedNavWidth : navWidth,
+          width: navCollapsed ? collapsedNavWidth : navWidth,
           borderRight: theme =>
             navigationBorderWidth === 0 ? 0 : `${navigationBorderWidth}px solid ${theme.palette.divider}`,
           ...userNavMenuPaperStyle

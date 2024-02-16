@@ -87,13 +87,11 @@ const AppLayout = ({ children }) => {
     );
   });
 
-  const setConfig = children.setConfig ?? undefined
-
   return (
     <Provider store={store}>
       <CacheProvider value={cache}>
         <AuthProvider>
-          <SettingsProvider {...{ pageSettings: {} }}>
+          <SettingsProvider>
             <SettingsConsumer>
               {({ settings }) => {
                 return (

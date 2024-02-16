@@ -3,7 +3,6 @@ import { useState, Fragment } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -11,7 +10,7 @@ import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
-import { StyledEngineProvider, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 
@@ -20,6 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
+import { IconButton } from '@mui/material'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -36,16 +36,9 @@ const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
   }
 }))
 
-const LinkStyled = styled(Link)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  textDecoration: 'none',
-  marginRight: theme.spacing(8)
-}))
-
-const UserDropdown = props => {
+const NavDropdown = props => {
   // ** Props
-  const { settings, hidden } = props
+  const { settings } = props
 
   // ** States
   const [anchorEl, setAnchorEl] = useState(null)
@@ -90,27 +83,10 @@ const UserDropdown = props => {
 
   return (
     <Fragment>
-      <Box onClick={handleDropdownOpen} sx={{ display: "flex", cursor: 'pointer' }}>
-        <Badge
-          overlap='circular'
-          sx={{ ml: 2, background: "text.primary" }}
-          badgeContent={<Icon fontSize="0.9rem" icon='tabler:circle-check-filled' />}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-        >
-          <Avatar
-            alt='John Doe'
-            onClick={handleDropdownOpen}
-            sx={{ width: 38, height: 38 }}
-          />
-        </Badge>
-        {!hidden && <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
-          <Typography sx={{ fontWeight: 500 }}>System</Typography>
-          <Typography variant='body2'>System Administrator</Typography>
-        </Box>}
-      </Box>
+      <IconButton color='inherit' sx={{ ml: -2.75 }}
+        onClick={handleDropdownOpen} >
+        <Icon fontSize='1.5rem' icon='tabler:menu-2' />
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -119,32 +95,22 @@ const UserDropdown = props => {
         anchorOrigin={{ vertical: 'bottom', horizontal: direction === 'ltr' ? 'right' : 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
       >
-        <Box sx={{ py: 1.75, px: 6 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 500 }}>System</Typography>
-              <Typography variant='body2'>System Administrator</Typography>
-            </Box>
-          </Box>
-        </Box>
-        <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
         <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <LinkStyled href="/profile" sx={styles}>
-            <Icon icon='tabler:user-check' />
-            Profile
-          </LinkStyled>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <LinkStyled href="/preferences" sx={styles}>
-            <Icon icon='tabler:settings' />
-            Preferences
-          </LinkStyled>
-        </MenuItemStyled>
-        <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
-        <MenuItemStyled sx={{ p: 0 }} onClick={handleLogout}>
           <Box sx={styles}>
-            <Icon icon='tabler:logout' />
-            Sign Out
+            <Icon icon='tabler:home' />
+            Dashboard
+          </Box>
+        </MenuItemStyled>
+        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+          <Box sx={styles}>
+            <Icon icon='uil:apps' />
+            My Apps
+          </Box>
+        </MenuItemStyled>
+        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+          <Box sx={styles}>
+            <Icon icon='bi:bag-plus' />
+            App Store
           </Box>
         </MenuItemStyled>
       </Menu>
@@ -152,4 +118,4 @@ const UserDropdown = props => {
   )
 }
 
-export default UserDropdown
+export default NavDropdown

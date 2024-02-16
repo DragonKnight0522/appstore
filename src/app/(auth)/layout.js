@@ -6,7 +6,7 @@ import UserLayout from 'src/layouts/UserLayout'
 
 const Layout = ({ children }) => {
   return (
-    <Guard aclAbilities={defaultACLObj} authGuard={true} guestGuard={false}>
+    <Guard aclAbilities={defaultACLObj} authGuard={false} guestGuard={true}>
       <UserLayout>
         {children}
       </UserLayout>
