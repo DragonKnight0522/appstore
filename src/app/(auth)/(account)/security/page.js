@@ -129,7 +129,7 @@ const Profile = () => {
                 <ListItemText secondary={<Translations text="Set up your account to receive auth code via a mobile application" />} />
               </Box>
               <ListItemSecondaryAction>
-                <Switch name='auth-app-toggler' checked={user.authenticator || true} onClick={() => handleAuthenticatorChange()} />
+                <Switch name='auth-app-toggler' checked={user.authenticator ?? true} onClick={() => handleAuthenticatorChange()} />
               </ListItemSecondaryAction>
             </ListItem>
           </StyledList>
