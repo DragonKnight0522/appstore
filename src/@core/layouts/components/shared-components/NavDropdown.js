@@ -2,16 +2,12 @@
 import { useState, Fragment } from 'react'
 
 // ** Next Import
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
-import Badge from '@mui/material/Badge'
-import Avatar from '@mui/material/Avatar'
-import Divider from '@mui/material/Divider'
 import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 
 // ** Icon Imports
@@ -20,21 +16,32 @@ import Icon from 'src/@core/components/icon'
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
 import { IconButton } from '@mui/material'
-
-// ** Styled Components
-const BadgeContentSpan = styled('span')(({ theme }) => ({
-  width: 8,
-  height: 8,
-  borderRadius: '50%',
-  backgroundColor: theme.palette.success.main,
-  boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-}))
+import Link from 'next/link'
+import Translations from 'src/layouts/components/Translations'
 
 const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
-  '&:hover .MuiBox-root, &:hover .MuiBox-root svg': {
+  '&.active svg, &:hover .MuiBox-root, &:hover .MuiBox-root svg': {
     color: theme.palette.primary.main
   }
 }))
+
+const tabData = [
+  {
+    title: 'Dashboard',
+    url: '/dashboard',
+    avatarIcon: 'tabler:home',
+  },
+  {
+    title: 'My Apps',
+    url: '/my-apps',
+    avatarIcon: 'uil:apps',
+  },
+  {
+    title: 'App Store',
+    url: '/app-store',
+    avatarIcon: 'bi:bag-plus',
+  },
+]
 
 const NavDropdown = props => {
   // ** Props
@@ -46,6 +53,7 @@ const NavDropdown = props => {
   // ** Hooks
   const router = useRouter()
   const { logout } = useAuth()
+  const pathname = usePathname()
 
   // ** Vars
   const { direction } = settings
@@ -76,11 +84,6 @@ const NavDropdown = props => {
     }
   }
 
-  const handleLogout = () => {
-    logout()
-    handleDropdownClose()
-  }
-
   return (
     <Fragment>
       <IconButton color='inherit' sx={{ ml: -2.75 }}
@@ -95,24 +98,18 @@ const NavDropdown = props => {
         anchorOrigin={{ vertical: 'bottom', horizontal: direction === 'ltr' ? 'right' : 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
       >
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='tabler:home' />
-            Dashboard
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='uil:apps' />
-            My Apps
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='bi:bag-plus' />
-            App Store
-          </Box>
-        </MenuItemStyled>
+        {tabData.map((tab, index) => {
+          const checked = pathname.includes(tab.url);
+
+          return (
+            <MenuItemStyled className={checked ? "active" : ""} key={index} sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+              <Box sx={styles} component={Link} href={tab.url} >
+                <Icon icon={tab.avatarIcon} />
+                <Translations text={tab.title} />
+              </Box>
+            </MenuItemStyled>
+          )
+        })}
       </Menu>
     </Fragment>
   )

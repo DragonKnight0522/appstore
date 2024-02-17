@@ -20,15 +20,8 @@ import Icon from 'src/@core/components/icon'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
-
-// ** Styled Components
-const BadgeContentSpan = styled('span')(({ theme }) => ({
-  width: 8,
-  height: 8,
-  borderRadius: '50%',
-  backgroundColor: theme.palette.success.main,
-  boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
-}))
+import { useSelector } from 'react-redux'
+import Translations from 'src/layouts/components/Translations'
 
 const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
   '&:hover .MuiBox-root, &:hover .MuiBox-root svg': {
@@ -53,6 +46,7 @@ const UserDropdown = props => {
   // ** Hooks
   const router = useRouter()
   const { logout } = useAuth()
+  const { organization } = useSelector(state => state.user)
 
   // ** Vars
   const { direction } = settings
@@ -84,8 +78,9 @@ const UserDropdown = props => {
   }
 
   const handleLogout = () => {
-    logout()
+    // logout()
     handleDropdownClose()
+    router.replace("/login")
   }
 
   return (
@@ -101,14 +96,17 @@ const UserDropdown = props => {
           }}
         >
           <Avatar
-            alt='John Doe'
             onClick={handleDropdownOpen}
             sx={{ width: 38, height: 38 }}
           />
         </Badge>
-        {!hidden && <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
-          <Typography sx={{ fontWeight: 500 }}>System</Typography>
-          <Typography variant='body2'>System Administrator</Typography>
+        {!hidden && <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column', minWidth: "10rem" }}>
+          <Typography sx={{ fontWeight: 500 }}>
+            <Translations text={organization.department} />
+          </Typography>
+          <Typography variant='body2'>
+            <Translations text={organization.role} />
+          </Typography>
         </Box>}
       </Box>
       <Menu
@@ -122,8 +120,12 @@ const UserDropdown = props => {
         <Box sx={{ py: 1.75, px: 6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 500 }}>System</Typography>
-              <Typography variant='body2'>System Administrator</Typography>
+              <Typography sx={{ fontWeight: 500 }}>
+                <Translations text={organization.department} />
+              </Typography>
+              <Typography variant='body2'>
+                <Translations text={organization.role} />
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -131,20 +133,20 @@ const UserDropdown = props => {
         <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <LinkStyled href="/profile" sx={styles}>
             <Icon icon='tabler:user-check' />
-            Profile
+            <Translations text="Profile" />
           </LinkStyled>
         </MenuItemStyled>
         <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <LinkStyled href="/preferences" sx={styles}>
             <Icon icon='tabler:settings' />
-            Preferences
+            <Translations text="Preferences" />
           </LinkStyled>
         </MenuItemStyled>
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
         <MenuItemStyled sx={{ p: 0 }} onClick={handleLogout}>
           <Box sx={styles}>
             <Icon icon='tabler:logout' />
-            Sign Out
+            <Translations text="Log Out" />
           </Box>
         </MenuItemStyled>
       </Menu>

@@ -17,6 +17,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import SVG_LOGO from '/public/images/unic-logo.svg'
 import { usePathname } from 'next/navigation'
 import NavDropdown from '../../shared-components/NavDropdown'
+import Translations from 'src/layouts/components/Translations'
 
 const LinkStyled = styled(Link)(({ theme }) => ({
   display: 'flex',
@@ -53,7 +54,7 @@ const renderTabs = (pathname, theme) => {
         key={index}
         href={item.url}
         sx={{
-          width: 110,
+          minWidth: 110,
           height: 74,
           borderWidth: 1,
           display: 'flex',
@@ -62,7 +63,7 @@ const renderTabs = (pathname, theme) => {
           flexDirection: 'column',
           justifyContent: 'center',
           cursor: 'pointer',
-          margin: 0,
+          margin: "0 0.5rem",
           "&:hover svg": {
             color: `${theme.palette.primary.main} !important`
           }
@@ -75,8 +76,8 @@ const renderTabs = (pathname, theme) => {
         >
           <Icon fontSize="2rem" icon={item.avatarIcon} />
         </RenderAvatar>
-        <Typography sx={{ fontWeight: checked ? 800 : 500, color: 'text.primary', textTransform: 'capitalize' }}>
-          {item.title}
+        <Typography sx={{ fontWeight: checked ? 600 : 500, color: 'text.primary', textTransform: 'capitalize' }}>
+          <Translations text={item.title} />
         </Typography>
       </LinkStyled>
     )

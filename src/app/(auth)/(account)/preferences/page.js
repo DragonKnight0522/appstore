@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -12,6 +13,8 @@ import { Button, List, ListItem, ListItemSecondaryAction, ListItemText, MenuItem
 import CustomTextField from 'src/@core/components/mui/text-field';
 
 import { useSettings } from 'src/@core/hooks/useSettings';
+import { updateUserInfo } from 'src/store/user';
+import Translations from 'src/layouts/components/Translations';
 
 const StyledList = styled(List)(({ theme }) => ({
   '& .MuiListItem-container': {
@@ -41,10 +44,17 @@ const StyledList = styled(List)(({ theme }) => ({
 }))
 
 const Preferences = () => {
+  // ** Hooks
   const theme = useTheme()
-
-  // ** Hook
   const { settings, saveSettings } = useSettings()
+  const dispatch = useDispatch()
+  const { preferences } = useSelector(state => state.user)
+  const [userData, setUserData] = useState({})
+
+  useEffect(() => {
+    setUserData(preferences);
+
+  }, [preferences])
 
   const handleModeToggle = () => {
     if (settings.mode === 'light') {
@@ -54,16 +64,30 @@ const Preferences = () => {
     }
   }
 
+  const handleChange = (event) => {
+    setUserData({ ...userData, [event.target.name]: event.target.value })
+  }
+
+  const handleUpdatePreferences = () => {
+    dispatch(updateUserInfo({ field: "preferences", data: userData }));
+  }
+
   return (
     <Box sx={{ maxWidth: "lg" }}>
       <Card sx={{ border: "none" }}>
-        <CardHeader title='General'></CardHeader>
+        <CardHeader title={<Translations text="General" />}></CardHeader>
         <CardContent>
           <StyledList disablePadding>
             <ListItem >
-              <ListItemText primary="Language" />
+              <ListItemText primary={<Translations text="Language" />} />
               <Box sx={{ width: "50%" }}>
-                <CustomTextField fullWidth select id='language' defaultValue='Greek'>
+                <CustomTextField
+                  fullWidth
+                  select
+                  name='language'
+                  value={userData.language || ""}
+                  onChange={handleChange}
+                >
                   <MenuItem value='English'>English</MenuItem>
                   <MenuItem value='Greek'>Greek</MenuItem>
                   <MenuItem value='French'>French</MenuItem>
@@ -73,18 +97,30 @@ const Preferences = () => {
               <ListItemSecondaryAction />
             </ListItem>
             <ListItem >
-              <ListItemText primary="Measurements" />
+              <ListItemText primary={<Translations text="Measurements" />} />
               <Box sx={{ width: "50%" }}>
-                <CustomTextField fullWidth select id='measurements' defaultValue='Metric'>
+                <CustomTextField
+                  fullWidth
+                  select
+                  name='measurements'
+                  value={userData.measurements || ""}
+                  onChange={handleChange}
+                >
                   <MenuItem value='Metric'>Metric</MenuItem>
                 </CustomTextField>
               </Box>
               <ListItemSecondaryAction />
             </ListItem>
             <ListItem >
-              <ListItemText primary="Time Zone" />
+              <ListItemText primary={<Translations text="Time Zone" />} />
               <Box sx={{ width: "50%" }}>
-                <CustomTextField fullWidth select id='language' defaultValue='Europe/Sofia'>
+                <CustomTextField
+                  fullWidth
+                  select
+                  name='timezone'
+                  value={userData.timezone || ""}
+                  onChange={handleChange}
+                >
                   <MenuItem value='Europe/Sofia'>Europe/Sofia</MenuItem>
                 </CustomTextField>
               </Box>
@@ -92,27 +128,27 @@ const Preferences = () => {
             </ListItem>
           </StyledList>
           <Box sx={{ padding: "1rem 0", display: "flex", justifyContent: "end" }}>
-            <Button sx={{ border: "1px solid gray", color: "text.primary" }}>
-              Apply
+            <Button sx={{ border: "1px solid gray", color: "text.primary" }} onClick={() => handleUpdatePreferences()}>
+              <Translations text="Apply" />
             </Button>
           </Box>
         </CardContent>
       </Card>
       <Card sx={{ border: "none" }}>
-        <CardHeader title='Accessability'></CardHeader>
+        <CardHeader title={<Translations text="Accessability" />}></CardHeader>
         <CardContent>
           <StyledList disablePadding>
             <ListItem >
-              <ListItemText primary="Mode" />
+              <ListItemText primary={<Translations text="Mode" />} />
               <Box sx={{ width: "50%" }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography color="primary.main">Light</Typography>
+                  <Typography color="primary.main"><Translations text="Light" /></Typography>
                   <Switch
                     name='mode-toggler'
                     checked={settings.mode === 'light'}
                     onChange={handleModeToggle}
                   />
-                  <Typography>Dark</Typography>
+                  <Typography><Translations text="Dark" /></Typography>
                 </Box>
               </Box>
               <ListItemSecondaryAction />

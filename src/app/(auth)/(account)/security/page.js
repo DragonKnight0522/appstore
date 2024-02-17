@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserInfo } from 'src/store/user';
+
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -8,7 +12,7 @@ import { Box } from '@mui/system';
 import { Button, IconButton, InputAdornment, List, ListItem, ListItemSecondaryAction, ListItemText, Switch, styled, useTheme } from '@mui/material';
 import { Icon } from '@iconify/react';
 import CustomTextField from 'src/@core/components/mui/text-field';
-import { useState } from 'react';
+import Translations from 'src/layouts/components/Translations';
 
 const StyledList = styled(List)(({ theme }) => ({
   '& .MuiListItem-container': {
@@ -45,40 +49,46 @@ const StyledListItem = styled(ListItemText)(({ theme }) => ({
   }
 }))
 
-const sessions = [
-  { created: "02/08/2024, 11:52:27", ip_address: "87.255.255.255", email: "user@mail.com", active: false },
-  { created: "02/08/2024, 11:52:27", ip_address: "87.255.255.255", email: "user@mail.com", active: true },
-]
-
 const Profile = () => {
-  const theme = useTheme()
-  const [password, setPassword] = useState("*****")
   const [passwordChange, setPasswordChange] = useState(false)
   const [passwordShow, setPasswordShow] = useState(false)
+
+  // ** Hooks
+  const theme = useTheme()
+  const dispatch = useDispatch()
+  const { user, sessions } = useSelector(state => state.user)
+
+  const handleUserInfoChange = event => {
+    dispatch(updateUserInfo({ field: "user", data: { "password": event.target.value } }))
+  }
+
+  const handleAuthenticatorChange = () => {
+    dispatch(updateUserInfo({ field: "user", data: { authenticator: !user.authenticator } }))
+  }
 
   return (
     <Box sx={{ maxWidth: "lg" }}>
       <Card sx={{ border: "none" }}>
-        <CardHeader title='Sign In'></CardHeader>
+        <CardHeader title={<Translations text='Sign In' />}></CardHeader>
         <CardContent>
           <StyledList disablePadding>
             <ListItem >
-              <ListItemText secondary="Email" />
+              <ListItemText secondary={<Translations text="Email" />} />
               <Box sx={{ width: "70%" }}>
-                <ListItemText primary="user@mail.com" />
+                <ListItemText primary={user.email} />
               </Box>
               <ListItemSecondaryAction>
               </ListItemSecondaryAction>
             </ListItem>
             <ListItem >
-              <ListItemText secondary="Password" />
+              <ListItemText secondary={<Translations text="Password" />} />
               <Box sx={{ width: "70%" }}>
                 {passwordChange ?
                   <CustomTextField
                     fullWidth
-                    value={password}
+                    value={user.password}
                     onBlur={() => setPasswordChange(false)}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={handleUserInfoChange}
                     type={passwordShow ? 'text' : 'password'}
                     InputLabelProps={{ width: '30%' }}
                     InputProps={{
@@ -97,7 +107,7 @@ const Profile = () => {
                     }}
                   />
                   :
-                  <ListItemText primary={password} />
+                  <ListItemText primary="*****" />
                 }
               </Box>
               <ListItemSecondaryAction>
@@ -110,25 +120,23 @@ const Profile = () => {
         </CardContent>
       </Card>
       <Card sx={{ border: "none" }}>
-        <CardHeader title='Multi Factor Authentication'></CardHeader>
+        <CardHeader title={<Translations text='Multi Factor Authentication' />} ></CardHeader>
         <CardContent>
           <StyledList disablePadding>
             <ListItem >
               <Box sx={{ width: "70%" }}>
-                <ListItemText primary="Authenticator App" />
-                <ListItemText secondary="Set up your account to receive auth code via a mobile application" />
+                <ListItemText primary={<Translations text="Authenticator App" />} />
+                <ListItemText secondary={<Translations text="Set up your account to receive auth code via a mobile application" />} />
               </Box>
               <ListItemSecondaryAction>
-                <Switch
-                  name='auth-app-toggler'
-                />
+                <Switch name='auth-app-toggler' checked={user.authenticator || true} onClick={() => handleAuthenticatorChange()} />
               </ListItemSecondaryAction>
             </ListItem>
           </StyledList>
         </CardContent>
       </Card>
       <Card sx={{ border: "none" }}>
-        <CardHeader title='Active Sessions'></CardHeader>
+        <CardHeader title={<Translations text='Active Sessions' />} ></CardHeader>
         <CardContent>
           <StyledList disablePadding>
             <ListItem sx={{
@@ -137,11 +145,10 @@ const Profile = () => {
               borderTopLeftRadius: theme.shape.borderRadius,
               borderTopRightRadius: theme.shape.borderRadius
             }}>
-              <StyledListItem primary="Created" />
-              <StyledListItem primary="IP Address" />
-              <StyledListItem primary="User Email" />
-              <ListItemSecondaryAction>
-              </ListItemSecondaryAction>
+              <StyledListItem primary={<Translations text="Created" />} />
+              <StyledListItem primary={<Translations text="IP Address" />} />
+              <StyledListItem primary={<Translations text="User Email" />} />
+              <ListItemSecondaryAction />
             </ListItem>
             {sessions.map((session, index) => (
               <ListItem key={index}>
