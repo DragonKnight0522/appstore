@@ -6,7 +6,6 @@ import { defaultACLObj } from "src/configs/acl";
 const Home = () => {
   return (
     <Guard aclAbilities={defaultACLObj} authGuard={true} guestGuard={false}>
-      Home Page
     </Guard>
   )
 }

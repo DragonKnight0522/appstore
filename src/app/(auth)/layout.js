@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   }, [dispatch])
 
   return (
-    <Guard aclAbilities={defaultACLObj} authGuard={false} guestGuard={true}>
+    <Guard aclAbilities={defaultACLObj} authGuard={true} guestGuard={false}>
       <UserLayout>
         {children}
       </UserLayout>

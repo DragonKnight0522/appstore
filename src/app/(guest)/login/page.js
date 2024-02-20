@@ -84,7 +84,6 @@ const LoginPage = () => {
         type: 'manual',
         message: err?.response?.data?.error ? err.response.data.error : 'Email or Password is invalid'
       })
-      router.replace("/dashboard")
     })
   }
 

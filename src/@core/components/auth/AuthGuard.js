@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 
 // ** Hooks Import
 import { useAuth } from 'src/hooks/useAuth'
+import { isEmpty } from 'src/@core/utils/is-empty'
 
 const AuthGuard = props => {
   const { children, fallback } = props
@@ -14,7 +15,7 @@ const AuthGuard = props => {
 
   useEffect(
     () => {
-      if (auth.user === null && !window.localStorage.getItem('userData')) {
+      if (isEmpty(auth.user) && !window.localStorage.getItem('userData')) {
         router.replace('/login')
       }
     },
@@ -22,7 +23,7 @@ const AuthGuard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router]
   )
-  if (auth.loading || auth.user === null) {
+  if (auth.loading || isEmpty(auth.user)) {
     return fallback
   }
 
