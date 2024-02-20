@@ -90,7 +90,7 @@ const AuthProvider = ({ children }) => {
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    axios.defaults.headers.delete('Authorization');
+    axios.defaults.headers.delete['Authorization'];
     router.push('/login')
   }
 
